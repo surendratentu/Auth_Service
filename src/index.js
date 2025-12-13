@@ -4,9 +4,7 @@ const bodyParser = require('body-parser')
 const { PORT } = require('./config/serverConfig');
 const apiRoutes = require('./routes/index');
 
-// const { User } = require('./models/index');
-// const bcrypt = require('bcrypt');
-const UserRepository = require('./repository/user-repository');
+const UserService = require('./services/user-service');
 
 const app = express();
 
@@ -19,13 +17,11 @@ const prepareAndStartServer = () => {
 
     app.listen(PORT, async () => {
         console.log(`Server is running on port ${PORT}`);
-        // const repo = new UserRepository();
-        // const response = await repo.getById(1);
-        // console.log(response);
-        // const incomingpassword = '123456987';
-        // const user = await User.findByPk(11);
-        // const response = bcrypt.compareSync(incomingpassword, user.password)
-        // console.log(response);
+
+        const service = new UserService();
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cmVuZHJhQGFkbWluLmNvbSIsImlkIjoxLCJpYXQiOjE3NjU2MTc3NjIsImV4cCI6MTc2NTYyMTM2Mn0.8NCBHxqPOiS8ex_yqyYP6NgipApXJS-7tQjoIjebBMQ';
+        const response = service.verifyToken(token);
+        console.log(response);
     });
 };
 
